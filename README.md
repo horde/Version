@@ -15,6 +15,37 @@ Common deviations from SemVer format:
 - Prefixes like v before the actual version are treated as not being part of SemVer V2 but strings containing these are common.
 - Some inhouse schemes support sub-patch versions (Major.Minor.Patch.SubPatch) to denote rebuilds of equivalent source code versions on changed tool chains
 
+## Usage
+
+Handle a string as a strict SemVerV2 object
+
+```
+// works
+$version = new SemVerV2('1.0.0');
+$version = new SemVerV2('1.0.0-alpha.1');
+$version = new SemVerV2('1.0.0-alpha.1+transpiled.to.php.7.4');
+// fails
+$version = new SemVerV2('1.0');
+$version = new SemVerV2('v1.0.0');
+$version = new SemVerV2('1.0.0alpha1');
+```
+
+Handle a string as a relaxed Semantion Version
+```
+// works
+$version = new RelaxedSemanticVersion('1.0.0');
+$version = new RelaxedSemanticVersion('1.0.0-alpha.1');
+$version = new RelaxedSemanticVersion('1.0.0-alpha.1+transpiled.to.php.7.4');
+// Is treated as 1.0.0
+$version = new RelaxedSemanticVersion('1.0');
+// Is treated as 1.0.0
+$version = new SemVerV2('v1.0.0');
+// is treated as 1.0.0-alpha1
+$version = new SemVerV2('1.0.0alpha1');
+```
+
+
+
 ## Origin
 
 A similar implementation existed in
