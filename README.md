@@ -1,4 +1,4 @@
-# horde/hordeymlfile
+# horde/version
 
 Create, parse, increment and compare strict SemVer V2 version tags and other common semantic versioning formats found out in the wild
 
