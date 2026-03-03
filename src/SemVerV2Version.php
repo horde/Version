@@ -32,9 +32,9 @@ class SemVerV2Version implements Version
         $this->major = (int) $matches['major'];
         $this->minor = (int) $matches['minor'];
         $this->patch = (int) $matches['patch'];
-        $this->isPreRelease = isset($matches['prerelease']);
+        $this->isPreRelease = isset($matches['prerelease']) && $matches['prerelease'] !== '';
         $this->preRelease = $matches['prerelease'] ?? '';
-        $this->hasBuildInfo = isset($matches['buildmetadata']);
+        $this->hasBuildInfo = isset($matches['buildmetadata']) && $matches['buildmetadata'] !== '';
         $this->buildInfo = $matches['buildmetadata'] ?? '';
     }
 

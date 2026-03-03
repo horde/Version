@@ -67,26 +67,27 @@ class NextVersion
             if ($this->original->major === 0) {
                 // If the major version is 0, we are still in development.
                 // New non-patch releases are feature releases
-                $versionString =                 $this->original->prefix .
-
+                $versionString = $this->original->prefix .
                 $this->original->major . '.' .
                 ($severity != 'patch' ? $this->original->minor + 1 : $this->original->minor) . '.' .
-                ($severity != 'patch' ? $this->original->patch : $this->original->patch) + 1;
+                ($severity != 'patch' ? 0 : $this->original->patch + 1);
             } else {
                 if ($nextStability === 'stable') {
                     // If the major version is not 0, we are stable
+                    // Major bump resets minor and patch to 0
+                    // Minor bump resets patch to 0
                     $major = ($severity == 'major') ? $this->original->major + 1 : $this->original->major;
-                    $minor = ($severity == 'minor') ? $this->original->minor + 1 : $this->original->minor;
-                    $patch = ($severity == 'patch') ? $this->original->patch + 1 : $this->original->patch;
-                    $versionString =                 $this->original->prefix .
+                    $minor = ($severity == 'minor') ? $this->original->minor + 1 : ($severity == 'major' ? 0 : $this->original->minor);
+                    $patch = ($severity == 'patch') ? $this->original->patch + 1 : 0;
+                    $versionString = $this->original->prefix .
                         $major . '.' .
                         $minor . '.' .
                         $patch;
                 } else {
                     // Unstable target versions > 0.x.y
                    $versionString = $this->original->prefix .
-                    $this->original->major .
-                    $this->original->minor .
+                    $this->original->major . '.' .
+                    $this->original->minor . '.' .
                     $this->original->patch .
                     '-' . $nextStability . '.' .
                     ($originalStability->getStabilityRevision() + 1);
