@@ -71,7 +71,7 @@ class SemVerV2Comparison
             else {
                 $result = strcmp($aPreReleaseParts[$i], $bPreReleaseParts[$i]);
                 if ($result !== 0) {
-                    return $result;
+                    return $result <=> 0; // Normalize to -1, 0, or 1
                 }
             }
         }

@@ -41,9 +41,9 @@ class RelaxedSemanticVersion extends SemVerV2Version
         $this->major = (int) $matches['major'];
         $this->minor = (int) $matches['minor'];
         $this->patch = (int) ($matches['patch'] ?? 0);
-        $this->isPreRelease = isset($matches['prerelease']);
+        $this->isPreRelease = isset($matches['prerelease']) && $matches['prerelease'] !== '';
         $this->preRelease = $matches['prerelease'] ?? '';
-        $this->hasBuildInfo = isset($matches['buildmetadata']);
+        $this->hasBuildInfo = isset($matches['buildmetadata']) && $matches['buildmetadata'] !== '';
         $this->buildInfo = $matches['buildmetadata'] ?? '';
     }
 
