@@ -10,6 +10,8 @@ namespace Horde\Version;
  */
 class SemVerV2Version implements Version
 {
+    use VersionComparable;
+
     public readonly int $major;
     public readonly int $minor;
     public readonly int $patch;
