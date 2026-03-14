@@ -57,6 +57,26 @@ class CompositeConstraint implements VersionConstraint
         }
     }
 
+    /**
+     * Get the child constraints
+     *
+     * @return array<VersionConstraint>
+     */
+    public function getConstraints(): array
+    {
+        return $this->constraints;
+    }
+
+    /**
+     * Get the logical operator
+     *
+     * @return string Either 'AND' or 'OR'
+     */
+    public function getOperator(): string
+    {
+        return $this->operator;
+    }
+
     public function __toString(): string
     {
         $separator = $this->operator === 'AND' ? ' ' : ' || ';

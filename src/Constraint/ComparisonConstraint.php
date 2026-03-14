@@ -28,6 +28,26 @@ class ComparisonConstraint implements VersionConstraint
         $this->comparison = new SemVerV2Comparison();
     }
 
+    /**
+     * Get the comparison operator
+     *
+     * @return string
+     */
+    public function getOperator(): string
+    {
+        return $this->operator;
+    }
+
+    /**
+     * Get the target version
+     *
+     * @return Version
+     */
+    public function getTargetVersion(): Version
+    {
+        return $this->targetVersion;
+    }
+
     public function isSatisfiedBy(Version $version): bool
     {
         $result = $this->comparison->compare($version, $this->targetVersion);

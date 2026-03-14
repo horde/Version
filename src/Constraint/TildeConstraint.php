@@ -50,6 +50,16 @@ class TildeConstraint implements VersionConstraint
         );
     }
 
+    /**
+     * Get the base version for this constraint
+     *
+     * @return Version
+     */
+    public function getBaseVersion(): Version
+    {
+        return $this->baseVersion;
+    }
+
     public function isSatisfiedBy(Version $version): bool
     {
         return $this->constraint->isSatisfiedBy($version);
