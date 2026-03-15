@@ -1,4 +1,21 @@
 ---
+1.0.0-alpha4:
+  api: 1.0.0-alpha4
+  state:
+    release: alpha
+    api: alpha
+  date: 2026-03-15
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    feat(constraint): add getters for constraint properties
+    chore(ci): update to horde-components 1.0.0-alpha36
+    fix(deps): remove PHPUnit dependency from library
+    chore(ci): update to horde-components 1.0.0-alpha35
+    chore(ci): update to horde-components 1.0.0-alpha34
+    chore(ci): update to horde-components 1.0.0-alpha33
+    chore(ci): add GitHub Actions CI workflow
 1.0.0-alpha3:
   api: 1.0.0
   state:
