@@ -11,7 +11,11 @@
             "role": "contributor"
         }
     ],
-    "time": "2026-03-15",
+    "keywords": [
+        "semver",
+        "formatting"
+    ],
+    "time": "2026-04-06",
     "repositories": [],
     "require": {
         "php": "^8.2"
@@ -32,9 +36,6 @@
             "Horde\\Version\\Test\\": "test/"
         }
     },
-    "bin": [
-        "bin/ci-bootstrap.sh"
-    ],
     "config": {
         "allow-plugins": {}
     },
