@@ -49,9 +49,9 @@ class RelaxedSemanticVersion extends SemVerV2Version
 
     public function formatSemVerV2(): string
     {
-        return "{$this->major}.{$this->minor}.{$this->patch}" .
-            ($this->isPreRelease ? "-{$this->preRelease}" : '') .
-            ($this->hasBuildInfo ? "+{$this->buildInfo}" : '');
+        return "{$this->major}.{$this->minor}.{$this->patch}"
+            . ($this->isPreRelease ? "-{$this->preRelease}" : '')
+            . ($this->hasBuildInfo ? "+{$this->buildInfo}" : '');
     }
 
     public function __toString(): string

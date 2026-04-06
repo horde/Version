@@ -7,6 +7,7 @@ namespace Horde\Version\Constraint;
 use Horde\Version\Version;
 use Horde\Version\VersionConstraint;
 use Horde\Version\RelaxedSemanticVersion;
+use InvalidArgumentException;
 
 /**
  * Caret constraint (^1.2.3)
@@ -32,7 +33,7 @@ class CaretConstraint implements VersionConstraint
             $minor = $baseVersion->minor;
             $patch = $baseVersion->patch;
         } else {
-            throw new \InvalidArgumentException('CaretConstraint requires a semantic version');
+            throw new InvalidArgumentException('CaretConstraint requires a semantic version');
         }
 
         // Determine upper bound based on left-most non-zero

@@ -36,7 +36,7 @@ class Stability
         } elseif ($this->isDevelopment()) {
             $this->stability = 'dev';
         } else {
-            throw new \LogicException('Unknown stability');
+            throw new LogicException('Unknown stability');
         }
         $this->stabilityRank = self::getStabilityRank($this->stability);
     }

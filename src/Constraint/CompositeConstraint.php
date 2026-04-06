@@ -6,6 +6,7 @@ namespace Horde\Version\Constraint;
 
 use Horde\Version\Version;
 use Horde\Version\VersionConstraint;
+use InvalidArgumentException;
 
 /**
  * Composite constraint for AND/OR logic
@@ -26,14 +27,14 @@ class CompositeConstraint implements VersionConstraint
         private readonly string $operator = 'AND'
     ) {
         if (!in_array($operator, ['AND', 'OR'])) {
-            throw new \InvalidArgumentException("Invalid logical operator: {$operator}");
+            throw new InvalidArgumentException("Invalid logical operator: {$operator}");
         }
         if (empty($constraints)) {
-            throw new \InvalidArgumentException('CompositeConstraint requires at least one constraint');
+            throw new InvalidArgumentException('CompositeConstraint requires at least one constraint');
         }
         foreach ($constraints as $constraint) {
             if (!$constraint instanceof VersionConstraint) {
-                throw new \InvalidArgumentException('All constraints must implement VersionConstraint');
+                throw new InvalidArgumentException('All constraints must implement VersionConstraint');
             }
         }
     }

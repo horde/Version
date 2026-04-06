@@ -7,6 +7,7 @@ namespace Horde\Version\Constraint;
 use Horde\Version\Version;
 use Horde\Version\VersionConstraint;
 use Horde\Version\RelaxedSemanticVersion;
+use InvalidArgumentException;
 
 /**
  * Tilde constraint (~1.2.3)
@@ -30,7 +31,7 @@ class TildeConstraint implements VersionConstraint
             $major = $baseVersion->major;
             $minor = $baseVersion->minor;
         } else {
-            throw new \InvalidArgumentException('TildeConstraint requires a semantic version');
+            throw new InvalidArgumentException('TildeConstraint requires a semantic version');
         }
 
         if ($this->hasPatch) {

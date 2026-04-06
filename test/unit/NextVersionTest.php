@@ -228,7 +228,10 @@ class NextVersionTest extends TestCase
     {
         $stringableVersion = new class ('1.0.0') implements Stringable {
             public function __construct(private string $version) {}
-            public function __toString(): string { return $this->version; }
+            public function __toString(): string
+            {
+                return $this->version;
+            }
         };
 
         $version = new NextVersion($stringableVersion);

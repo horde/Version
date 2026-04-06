@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Horde\Version\VersionCollection;
 use Horde\Version\RelaxedSemanticVersion;
+use InvalidArgumentException;
 
 #[CoversClass(VersionCollection::class)]
 class VersionCollectionTest extends TestCase
@@ -175,7 +176,7 @@ class VersionCollectionTest extends TestCase
 
     public function testGroupInvalidBy(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         VersionCollection::group(['1.0.0'], 'invalid');
     }
 

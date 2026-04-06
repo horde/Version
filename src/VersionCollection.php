@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Horde\Version;
 
+use InvalidArgumentException;
+
 /**
  * Utilities for working with collections of versions
  *
@@ -147,7 +149,7 @@ class VersionCollection
     public static function group(array $versions, string $by = 'major'): array
     {
         if (!in_array($by, ['major', 'minor'])) {
-            throw new \InvalidArgumentException("Group by must be 'major' or 'minor'");
+            throw new InvalidArgumentException("Group by must be 'major' or 'minor'");
         }
 
         if (empty($versions)) {
@@ -215,7 +217,7 @@ class VersionCollection
             $constraint = $parser->parse($criteria);
             return fn(Version $v) => $constraint->isSatisfiedBy($v);
         } catch (InvalidVersionException $e) {
-            throw new \InvalidArgumentException("Invalid filter criteria: {$criteria}", 0, $e);
+            throw new InvalidArgumentException("Invalid filter criteria: {$criteria}", 0, $e);
         }
     }
 

@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 namespace Horde\Version;
+
 use Stringable;
+
 /**
  * Generate the next version based on the current version and the severity of the change.
  */
@@ -29,12 +31,12 @@ class NextVersion
         $changeDirection = Stability::getStabilityRank($nextStability) <=> $originalStability->stabilityRank;
         // If we are going more unstable, we need to increment the version as a prerelease of the same version might already exist
         if ($changeDirection < 0) {
-            $versionString =
-                $major = ($severity == 'major') ? $this->original->major + 1 : $this->original->major;
-                $minor = ($severity == 'minor') ? $this->original->minor + 1 : $this->original->minor;
-                $patch = ($severity == 'patch') ? $this->original->patch + 1 : $this->original->patch;
-                $versionString =
-                $this->original->prefix . $major . '.' . $minor . '.' . $patch;
+            $versionString
+                = $major = ($severity == 'major') ? $this->original->major + 1 : $this->original->major;
+            $minor = ($severity == 'minor') ? $this->original->minor + 1 : $this->original->minor;
+            $patch = ($severity == 'patch') ? $this->original->patch + 1 : $this->original->patch;
+            $versionString
+            = $this->original->prefix . $major . '.' . $minor . '.' . $patch;
 
             if ($nextStability !== 'stable') {
                 $versionString .= '-' . $nextStability . '.1';
@@ -45,18 +47,18 @@ class NextVersion
             // The next pre-release level starts at revision 1
             if ($this->original->major === 0 && $nextStability === 'stable') {
                 // The first stable version is 1.0.0
-                $versionString =
-                    $this->original->prefix .
-                    '1.0.0';
+                $versionString
+                    = $this->original->prefix
+                    . '1.0.0';
 
             } else {
 
                 // If the major version is not 0, we keep the same version number
-                $versionString =
-                $this->original->prefix .
-                $this->original->major . '.' .
-                $this->original->minor . '.' .
-                $this->original->patch;
+                $versionString
+                = $this->original->prefix
+                . $this->original->major . '.'
+                . $this->original->minor . '.'
+                . $this->original->patch;
                 if ($nextStability !== 'stable') {
                     $versionString .= '-' . $nextStability . '.1';
                 }
@@ -67,10 +69,10 @@ class NextVersion
             if ($this->original->major === 0) {
                 // If the major version is 0, we are still in development.
                 // New non-patch releases are feature releases
-                $versionString = $this->original->prefix .
-                $this->original->major . '.' .
-                ($severity != 'patch' ? $this->original->minor + 1 : $this->original->minor) . '.' .
-                ($severity != 'patch' ? 0 : $this->original->patch + 1);
+                $versionString = $this->original->prefix
+                . $this->original->major . '.'
+                . ($severity != 'patch' ? $this->original->minor + 1 : $this->original->minor) . '.'
+                . ($severity != 'patch' ? 0 : $this->original->patch + 1);
             } else {
                 if ($nextStability === 'stable') {
                     // If the major version is not 0, we are stable
@@ -79,18 +81,18 @@ class NextVersion
                     $major = ($severity == 'major') ? $this->original->major + 1 : $this->original->major;
                     $minor = ($severity == 'minor') ? $this->original->minor + 1 : ($severity == 'major' ? 0 : $this->original->minor);
                     $patch = ($severity == 'patch') ? $this->original->patch + 1 : 0;
-                    $versionString = $this->original->prefix .
-                        $major . '.' .
-                        $minor . '.' .
-                        $patch;
+                    $versionString = $this->original->prefix
+                        . $major . '.'
+                        . $minor . '.'
+                        . $patch;
                 } else {
                     // Unstable target versions > 0.x.y
-                   $versionString = $this->original->prefix .
-                    $this->original->major . '.' .
-                    $this->original->minor . '.' .
-                    $this->original->patch .
-                    '-' . $nextStability . '.' .
-                    ($originalStability->getStabilityRevision() + 1);
+                    $versionString = $this->original->prefix
+                     . $this->original->major . '.'
+                     . $this->original->minor . '.'
+                     . $this->original->patch
+                     . '-' . $nextStability . '.'
+                     . ($originalStability->getStabilityRevision() + 1);
                 }
             }
             return new RelaxedSemanticVersion($versionString);

@@ -7,6 +7,7 @@ namespace Horde\Version\Constraint;
 use Horde\Version\Version;
 use Horde\Version\VersionConstraint;
 use Horde\Version\SemVerV2Comparison;
+use InvalidArgumentException;
 
 /**
  * Comparison constraint (>=1.0.0, <2.0.0, etc.)
@@ -23,7 +24,7 @@ class ComparisonConstraint implements VersionConstraint
         private readonly Version $targetVersion
     ) {
         if (!in_array($operator, ['>', '>=', '<', '<=', '=', '==', '!=', '<>'])) {
-            throw new \InvalidArgumentException("Invalid comparison operator: {$operator}");
+            throw new InvalidArgumentException("Invalid comparison operator: {$operator}");
         }
         $this->comparison = new SemVerV2Comparison();
     }
@@ -52,7 +53,7 @@ class ComparisonConstraint implements VersionConstraint
     {
         $result = $this->comparison->compare($version, $this->targetVersion);
 
-        return match($this->operator) {
+        return match ($this->operator) {
             '>' => $result > 0,
             '>=' => $result >= 0,
             '<' => $result < 0,

@@ -42,7 +42,7 @@ class InvalidVersionExceptionTest extends TestCase
 
     public function testPreviousExceptionChaining(): void
     {
-        $previous = new \RuntimeException('Previous exception');
+        $previous = new RuntimeException('Previous exception');
         $exception = new InvalidVersionException('Wrapped exception', 0, $previous);
 
         $this->assertEquals('Wrapped exception', $exception->getMessage());
@@ -52,7 +52,7 @@ class InvalidVersionExceptionTest extends TestCase
 
     public function testFullConstructor(): void
     {
-        $previous = new \RuntimeException('Root cause');
+        $previous = new RuntimeException('Root cause');
         $exception = new InvalidVersionException('Version parsing failed', 123, $previous);
 
         $this->assertEquals('Version parsing failed', $exception->getMessage());
