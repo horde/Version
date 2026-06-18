@@ -171,6 +171,70 @@ class ConstraintParserTest extends TestCase
         $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('3.0.0')));
     }
 
+    // Major-only constraints
+    public function testParseCaretMajorOnly(): void
+    {
+        $constraint = $this->parser->parse('^12');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.5.7')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('11.5.0')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('13.0.0')));
+    }
+
+    public function testParseCaretMajorMinor(): void
+    {
+        $constraint = $this->parser->parse('^1.2');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('1.2.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('1.5.0')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('1.1.9')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('2.0.0')));
+    }
+
+    public function testParseTildeMajorOnly(): void
+    {
+        $constraint = $this->parser->parse('~12');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.9.9')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('11.5.0')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('13.0.0')));
+    }
+
+    public function testParseExactMajorOnly(): void
+    {
+        $constraint = $this->parser->parse('12');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.0')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.1')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('11.0.0')));
+    }
+
+    public function testParseComparisonMajorOnly(): void
+    {
+        $constraint = $this->parser->parse('>=12');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.5.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('20.0.0')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('11.9.9')));
+    }
+
+    public function testParseOrConstraintWithMajorOnly(): void
+    {
+        $constraint = $this->parser->parse('^11 || ^12');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('11.0.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('11.9.9')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.5.0')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('10.9.9')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('13.0.0')));
+    }
+
+    public function testParseCaretWithPrefixedMajorOnly(): void
+    {
+        $constraint = $this->parser->parse('^v12');
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.0.0')));
+        $this->assertTrue($constraint->isSatisfiedBy(new RelaxedSemanticVersion('12.7.3')));
+        $this->assertFalse($constraint->isSatisfiedBy(new RelaxedSemanticVersion('13.0.0')));
+    }
+
     // Error cases
     public function testParseEmptyString(): void
     {

@@ -17,8 +17,8 @@ use Horde\Version\Constraint\CompositeConstraint;
  * Supports Composer-style constraint syntax:
  * - Exact: 1.0.0
  * - Comparison: >1.0.0, >=1.0.0, <2.0.0, <=2.0.0, !=1.5.0
- * - Caret: ^1.2.3 (>=1.2.3 <2.0.0)
- * - Tilde: ~1.2.3 (>=1.2.3 <1.3.0)
+ * - Caret: ^1.2.3, ^1.2, ^12 (>=12.0.0 <13.0.0)
+ * - Tilde: ~1.2.3, ~1.2, ~12 (>=12.0.0 <13.0.0)
  * - Wildcard: 1.0.*, 1.*
  * - Range: 1.0.0 - 2.0.0
  * - AND: >=1.0 <2.0
@@ -113,19 +113,19 @@ class ConstraintParser
     {
         $constraint = trim($constraint);
 
-        // Caret: ^1.2.3
+        // Caret: ^1.2.3, ^1.2, or ^12
         if (str_starts_with($constraint, '^')) {
             $versionString = substr($constraint, 1);
-            $version = new RelaxedSemanticVersion($versionString);
+            $version = new RelaxedSemanticVersion($this->normalizeVersionString($versionString));
             return new CaretConstraint($version);
         }
 
-        // Tilde: ~1.2.3 or ~1.2
+        // Tilde: ~1.2.3, ~1.2, or ~12
         if (str_starts_with($constraint, '~')) {
             $versionString = substr($constraint, 1);
-            $version = new RelaxedSemanticVersion($versionString);
-            // Check if patch level was specified
-            $hasPatch = substr_count($versionString, '.') >= 2;
+            // Check if patch level was specified before padding
+            $hasPatch = substr_count($this->stripVersionSuffix($versionString), '.') >= 2;
+            $version = new RelaxedSemanticVersion($this->normalizeVersionString($versionString));
             return new TildeConstraint($version, $hasPatch);
         }
 
@@ -138,13 +138,61 @@ class ConstraintParser
         if (preg_match('/^(>=?|<=?|!=|<>|==?)(.+)$/', $constraint, $matches)) {
             $operator = $matches[1];
             $versionString = trim($matches[2]);
-            $version = new RelaxedSemanticVersion($versionString);
+            $version = new RelaxedSemanticVersion($this->normalizeVersionString($versionString));
             return new ComparisonConstraint($operator, $version);
         }
 
         // Exact: 1.0.0
-        $version = new RelaxedSemanticVersion($constraint);
+        $version = new RelaxedSemanticVersion($this->normalizeVersionString($constraint));
         return new ExactConstraint($version);
+    }
+
+    /**
+     * Pad a version string to at least major.minor.patch.
+     *
+     * Accepts inputs like "12", "v12", "12-alpha1", "12.5", "12.5.0+build" and
+     * pads any missing minor or patch component with zeros. Pre-release and
+     * build-metadata suffixes are preserved.
+     *
+     * "12"          -> "12.0.0"
+     * "v12-alpha1"  -> "v12.0.0-alpha1"
+     * "12.5"        -> "12.5.0"
+     * "12.5.0"      -> "12.5.0" (unchanged)
+     */
+    private function normalizeVersionString(string $versionString): string
+    {
+        if (!preg_match(
+            '/^(?P<prefix>[a-zA-Z]*)(?P<numeric>\d+(?:\.\d+){0,2})(?P<suffix>.*)$/',
+            $versionString,
+            $matches
+        )) {
+            return $versionString;
+        }
+
+        $parts = explode('.', $matches['numeric']);
+        while (count($parts) < 3) {
+            $parts[] = '0';
+        }
+
+        return $matches['prefix'] . implode('.', $parts) . $matches['suffix'];
+    }
+
+    /**
+     * Strip the alphabetic prefix and pre-release/build suffix from a version
+     * string, leaving only the dotted numeric core. Used to detect how many
+     * components the user originally supplied.
+     */
+    private function stripVersionSuffix(string $versionString): string
+    {
+        if (!preg_match(
+            '/^(?:[a-zA-Z]*)(?P<numeric>\d+(?:\.\d+){0,2})/',
+            $versionString,
+            $matches
+        )) {
+            return $versionString;
+        }
+
+        return $matches['numeric'];
     }
 
     /**
