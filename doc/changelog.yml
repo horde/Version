@@ -1,4 +1,27 @@
 ---
+1.0.0-RC2:
+  api: 1.0.0-RC2
+  state:
+    release: RC
+    api: RC
+  date: 2026-06-18
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    feat: Support major-only version constraints such as ^12 (aka ^12.0.0)
+    chore: Update workflow dependency
+1.0.0-RC1:
+  api: 1.0.0-RC1
+  state:
+    release: RC
+    api: RC
+  date: 2026-05-19
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    feat: Support composer normalized versions (4-component).
 1.0.0-beta3:
   api: 1.0.0-beta3
   state:
@@ -75,14 +98,3 @@
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
     Initial component version
-1.0.0-RC1:
-  api: 1.0.0-RC1
-  state:
-    release: RC
-    api: RC
-  date: 2026-05-19
-  license:
-    identifier: LGPL-2.1-only
-    uri: https://spdx.org/licenses/LGPL-2.1-only.html
-  notes: |-
-    feat: Support composer normalized versions (4-component).
