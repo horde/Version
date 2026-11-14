@@ -12,7 +12,7 @@ authors:
     active: true
     role: contributor
 version:
-  release: 1.0.0
+  release: 1.1.0
   api: 1.0.0
 state:
   release: stable
@@ -38,8 +38,7 @@ quality:
     level: 3
 ci-platform:
   '8.2':
-    - php: '>=5.3'
-    - ext-ctype
+    - php: ^8.2
     - ext-dom
     - ext-filter
     - ext-hash
@@ -49,11 +48,9 @@ ci-platform:
     - ext-mbstring
     - ext-phar
     - ext-tokenizer
-    - ext-xml
     - ext-xmlwriter
   '8.3':
-    - php: '>=5.3'
-    - ext-ctype
+    - php: ^8.3
     - ext-dom
     - ext-filter
     - ext-hash
@@ -63,11 +60,9 @@ ci-platform:
     - ext-mbstring
     - ext-phar
     - ext-tokenizer
-    - ext-xml
     - ext-xmlwriter
   '8.4':
-    - php: '>=5.3'
-    - ext-ctype
+    - php: ^8.4
     - ext-dom
     - ext-filter
     - ext-hash
@@ -77,11 +72,9 @@ ci-platform:
     - ext-mbstring
     - ext-phar
     - ext-tokenizer
-    - ext-xml
     - ext-xmlwriter
   '8.5':
-    - php: '>=5.3'
-    - ext-ctype
+    - php: ^8.5
     - ext-dom
     - ext-filter
     - ext-hash
@@ -91,11 +84,9 @@ ci-platform:
     - ext-mbstring
     - ext-phar
     - ext-tokenizer
-    - ext-xml
     - ext-xmlwriter
   '8.6':
-    - php: '>=5.3'
-    - ext-ctype
+    - php: ^8.6
     - ext-dom
     - ext-filter
     - ext-hash
@@ -105,7 +96,6 @@ ci-platform:
     - ext-mbstring
     - ext-phar
     - ext-tokenizer
-    - ext-xml
     - ext-xmlwriter
 ci-platform-flags:
   needs_installer_plugin: false

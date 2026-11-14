@@ -15,7 +15,7 @@
         "semver",
         "formatting"
     ],
-    "time": "2026-06-27",
+    "time": "2026-11-14",
     "repositories": [],
     "require": {
         "php": "^8.2"
