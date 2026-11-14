@@ -24,6 +24,16 @@ class ExactConstraint implements VersionConstraint
         $this->comparison = new SemVerV2Comparison();
     }
 
+    /**
+     * Get the target version this constraint matches exactly
+     *
+     * @return Version
+     */
+    public function getTargetVersion(): Version
+    {
+        return $this->targetVersion;
+    }
+
     public function isSatisfiedBy(Version $version): bool
     {
         return $this->comparison->compare($version, $this->targetVersion) === 0;

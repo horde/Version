@@ -11,7 +11,7 @@ use Horde\Version\RelaxedSemanticVersion;
 /**
  * Wildcard constraint (1.0.*, 1.*)
  *
- * Matches any version where the non-wildcard parts match:
+ * Matches any version where the non wildcard parts match
  * - 1.0.* := >=1.0.0 <1.1.0
  * - 1.* := >=1.0.0 <2.0.0
  *
@@ -47,7 +47,7 @@ class WildcardConstraint implements VersionConstraint
         );
 
         if ($patch !== null) {
-            // 1.0.0.* - not really valid in SemVer, treat as exact
+            // 1.0.0.* not really valid in SemVer (but in composer's 4-part semverish versions)
             $upperBound = new RelaxedSemanticVersion(
                 $major . '.' . $minor . '.' . ($patch + 1)
             );
@@ -70,6 +70,32 @@ class WildcardConstraint implements VersionConstraint
             ],
             'AND'
         );
+    }
+
+    /**
+     * The fixed major component of the wildcard pattern.
+     */
+    public function getMajor(): int
+    {
+        return $this->major;
+    }
+
+    /**
+     * The fixed minor component, or null when the minor is the wildcard
+     * (e.g. "1.*").
+     */
+    public function getMinor(): ?int
+    {
+        return $this->minor;
+    }
+
+    /**
+     * The fixed patch component, or null when the patch is the wildcard
+     * (e.g. "1.0.*").
+     */
+    public function getPatch(): ?int
+    {
+        return $this->patch;
     }
 
     public function isSatisfiedBy(Version $version): bool
