@@ -61,6 +61,17 @@ class TildeConstraint implements VersionConstraint
         return $this->baseVersion;
     }
 
+    /**
+     * Whether the base version was specified with a patch component.
+     *
+     * Governs the upper bound like ~1.2.3 (hasPatch) is <1.3.0
+     * but ~1.2 (no patch) is <2.0.0.
+     */
+    public function hasPatch(): bool
+    {
+        return $this->hasPatch;
+    }
+
     public function isSatisfiedBy(Version $version): bool
     {
         return $this->constraint->isSatisfiedBy($version);
